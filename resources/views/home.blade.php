@@ -288,7 +288,7 @@
                 <!--begin::Team Member-->
                 <div class="team-card">
                     <div class="team-photo-wrap">
-                        <img src="{{ asset('assets/images/profile-2.jpg') }}" class="team-img">
+                        <img src="{{ asset('assets/images/profile-2.jpeg') }}" class="team-img">
                     </div>
                     <p class="team-nim">15240053</p>
                     <p class="team-name">Ryan Raphael Setiawan</p>
@@ -315,7 +315,7 @@
                 <!--begin::Team Member-->
                 <div class="team-card">
                     <div class="team-photo-wrap">
-                        <img src="{{ asset('assets/images/profile-5.jpg') }}" class="team-img">
+                        <img src="{{ asset('assets/images/profile-5.png') }}" class="team-img">
                     </div>
                     <p class="team-nim">15240148</p>
                     <p class="team-name">Wafiq Nur Aliyah</p>
