@@ -59,11 +59,14 @@ class OutfitController extends Controller
             // Log the size of the cropped image data
             $analysis = $this->analyzeWithGemini($cropped['base64'], $cropped['mime_type']);
 
+            session()->regenerate();
+
             // Log the analysis result for debugging
             return view('result', [
                 'imagePath' => $path,
                 'outfits' => $analysis['outfits'] ?? [],
                 'summary' => $analysis['summary'] ?? null,
+                'recommendation' => $analysis['recommendation'] ?? [],
                 'cropPreview' => $cropped['relative_path'],
             ]);
         } catch (\Throwable $e) {
@@ -106,7 +109,20 @@ class OutfitController extends Controller
                             { "type": "Celana Jeans", "category": "bottom", "percentage": 15 },
                             { "type": "Sepatu", "category": "footwear", "percentage": 5 }
                         ],
-                        "summary": "text"
+                        "summary": "text",
+                        "recommendation": {
+                            "style": "Casual Modern",
+                            "description": "Outfit cocok digunakan untuk aktivitas santai dan hangout.",
+                            "match_colors": ["Putih", "Navy", "Beige"],
+                            "occasion": "Daily Casual",
+                            "fashion_tips": "Gunakan outfit dengan warna netral agar terlihat lebih clean dan modern.",
+                            "pairing_items": [
+                                "Sneakers putih",
+                                "Celana chino beige",
+                                "Jam tangan silver",
+                                "Totebag canvas"
+                            ]
+                        }
                     }
 
                     Aturan:
@@ -116,12 +132,20 @@ class OutfitController extends Controller
                     - Setiap jenis outfit memiliki nilai 0-100
                     - Total seluruh nilai harus 100
                     - Berdasarkan dominasi visual pada gambar
-                    - Gunakan bahasa Indonesia untuk nama outfit
+                    - Berikan rekomendasi style fashion sesuai outfit
+                    - Berikan warna yang cocok dipadukan
+                    - Gunakan bahasa Indonesia
                     - Jangan tambahkan markdown atau teks di luar JSON
+                    - Berikan rekomendasi item fashion yang cocok dipadukan dengan outfit
+                    - pairing_items berisi item fashion tambahan yang cocok digunakan
+                    - fashion_tips berisi tips styling singkat
+                    - Rekomendasi harus realistis dan sesuai outfit pada gambar
+                    - Hindari rekomendasi berlebihan atau tidak relevan
                     PROMPT;
 
         // Send request to Gemini API
-        $response = Http::withHeaders([
+        $response = Http::retry(3, 2000)
+                    ->withHeaders([
                         'x-goog-api-key' => $apiKey,
                         'Content-Type' => 'application/json',
                     ])
@@ -161,6 +185,14 @@ class OutfitController extends Controller
 
         // Log the raw response for debugging
         $json = $response->json();
+
+        if (
+            empty($json['candidates']) ||
+            !isset($json['candidates'][0]['content'])
+        ) {
+            throw new \RuntimeException('Response Gemini kosong atau invalid.');
+        }
+
         $text = $this->extractGeminiText($json);
 
         // Log the extracted text for debugging
@@ -252,6 +284,7 @@ class OutfitController extends Controller
         return [
             'outfits' => $outfits,
             'summary' => (string) ($data['summary'] ?? ''),
+            'recommendation' => $data['recommendation'] ?? [],
         ];
     }
 

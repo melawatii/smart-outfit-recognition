@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Crimson+Text:wght@400;600;700&family=EB+Garamond:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="{{ asset('assets/images/logo.png') }}" type="image/x-icon">
 
     <style>
         html {
@@ -31,13 +32,267 @@
             font-family: "EB Garamond", serif;
         }
 
+        body {
+            background-color: #EFF3FB;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 420px;
+            height: 220px;
+            background: linear-gradient(135deg, #C7D9F5 0%, #B8CCF0 100%);
+            border-radius: 0 80px 0 0;
+            opacity: 0.5;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            width: 260px;
+            height: 160px;
+            background: linear-gradient(135deg, #D4E4FA 0%, #C2D6F5 100%);
+            border-radius: 80px 0 0 0;
+            opacity: 0.45;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .site-header {
+            background-color: #ffffff;
+            border-bottom: 1px solid #E2EAF6;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        .panel-card {
+            background: #ffffff;
+            border: 1px solid #E2EAF6;
+            border-radius: 20px;
+            box-shadow: 0 2px 16px rgba(59, 100, 180, 0.06);
+        }
+        .section-icon-bubble {
+            width: 52px;
+            height: 52px;
+            background: #EBF2FF;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .section-icon-bubble svg {
+            color: #3B6DB4;
+        }
+        .section-title {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #1A2F5A;
+            font-family: "Inter", sans-serif;
+        }
+
+        .section-desc {
+            font-size: 0.8125rem;
+            color: #6B7DA8;
+            line-height: 1.6;
+        }
+        .theme-divider {
+            height: 3px;
+            width: 60px;
+            border-radius: 9999px;
+            background: linear-gradient(to right, #3B6DB4, #73A5CA);
+            margin-top: 10px;
+        }
+        .step-badge {
+            width: 26px;
+            height: 26px;
+            background: #3B6DB4;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #ffffff;
+            flex-shrink: 0;
+        }
+
+        .step-label {
+            font-size: 0.9375rem;
+            font-weight: 600;
+            color: #1A2F5A;
+        }
+        .step-block {
+            background: #F7FAFF;
+            border: 1px solid #DDEAF8;
+            border-radius: 14px;
+            padding: 16px;
+        }
+        .source-btn-main {
+            width: 100%;
+            background: #3B6DB4;
+            color: #ffffff;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 14px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: background 0.2s;
+        }
+
+        .source-btn-main:hover {
+            background: #2d5a9e;
+        }
+        .source-btn-sub-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        #subBtnRow.hidden {
+            display: none !important;
+        }
+
+        .source-btn-secondary {
+            background: #ffffff;
+            color: #374151;
+            border: 1px solid #DDEAF8;
+            border-radius: 10px;
+            padding: 10px 12px;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: border-color 0.2s, background 0.2s;
+        }
+
+        .source-btn-secondary:hover {
+            border-color: #3B6DB4;
+            background: #F0F6FF;
+            color: #3B6DB4;
+        }
+
+        .source-btn-secondary.active {
+            background: #E8F0FB;
+            border-color: #3B6DB4;
+            color: #3B6DB4;
+        }
+        .file-input-styled {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #ffffff;
+            border: 1px solid #DDEAF8;
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-size: 0.8125rem;
+            color: #374151;
+        }
+
+        .file-input-styled input[type="file"] {
+            flex: 1;
+            font-size: 0.8125rem;
+            color: #374151;
+            background: transparent;
+            border: none;
+            outline: none;
+        }
+        .tip-box {
+            background: #F0F6FF;
+            border: 1px solid #BBCFEC;
+            border-radius: 12px;
+            padding: 12px 14px;
+        }
+
+        .tip-box-title {
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: #1A2F5A;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 4px;
+        }
+
+        .tip-box-text {
+            font-size: 0.8125rem;
+            color: #4A6A9B;
+            line-height: 1.5;
+        }
+        .bullet-list {
+            list-style: disc;
+            padding-left: 18px;
+            font-size: 0.8125rem;
+            color: #4A6A9B;
+            line-height: 1.7;
+        }
+        .camera-btn-primary {
+            flex: 1;
+            background: #3B6DB4;
+            color: #ffffff;
+            border: none;
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: background 0.2s;
+        }
+
+        .camera-btn-primary:hover {
+            background: #2d5a9e;
+        }
+
+        .camera-btn-outline {
+            flex: 1;
+            background: #ffffff;
+            color: #3B6DB4;
+            border: 1px solid #BBCFEC;
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: border-color 0.2s, background 0.2s;
+        }
+
+        .camera-btn-outline:hover {
+            border-color: #3B6DB4;
+            background: #F0F6FF;
+        }
+
+        .camera-btn-outline:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+        }
         .crop-box {
             position: absolute;
-            border: 2px solid #E87F24;
-            background: rgba(255, 200, 30, 0.16);
+            border: 2px solid #3B6DB4;
+            background: rgba(59, 109, 180, 0.1);
             cursor: move;
-            box-shadow: 0 0 0 9999px rgba(17, 24, 39, 0.35);
-            border-radius: 16px;
+            box-shadow: 0 0 0 9999px rgba(15, 30, 70, 0.3);
+            border-radius: 10px;
         }
 
         .crop-handle {
@@ -46,106 +301,179 @@
             height: 14px;
             right: -7px;
             bottom: -7px;
-            background: #73A5CA;
+            background: #3B6DB4;
             border: 2px solid #ffffff;
             border-radius: 9999px;
             cursor: nwse-resize;
         }
+        .submit-btn {
+            width: 100%;
+            background: #3B6DB4;
+            color: #ffffff;
+            border: none;
+            border-radius: 12px;
+            padding: 14px;
+            font-size: 0.9375rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: background 0.2s;
+        }
 
+        .submit-btn:hover {
+            background: #2d5a9e;
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
         .spinner {
-            width: 22px;
-            height: 22px;
+            width: 20px;
+            height: 20px;
             border: 3px solid rgba(255,255,255,0.3);
             border-top-color: white;
             border-radius: 9999px;
             animation: spin 0.8s linear infinite;
         }
 
-        .camera-btn-secondary {
-            border: 1px solid #FFC81E;
-            background: #FEFDDF;
-            color: #374151;
-        }
-
-        .camera-btn-secondary:hover {
-            background: #FFF7CC;
-            border-color: #E87F24;
-            color: #E87F24;
-        }
-
-        .camera-btn-dark {
-            background: #E87F24;
-            color: white;
-        }
-
-        .camera-btn-dark:hover {
-            background: #FFC81E;
-            color: #1f2937;
-        }
-
-        .panel-card {
-            background: rgba(255,255,255,0.92);
-            border: 1px solid #FFC81E;
-            border-radius: 24px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.05);
-        }
-
-        .soft-box {
-            background-color: #FFFDF4;
-            border: 1px solid #F3D66B;
-            border-radius: 18px;
-        }
-
-        .blue-box {
-            background-color: #EEF6FC;
-            border: 1px solid #73A5CA;
-            border-radius: 18px;
-        }
-
-        .yellow-box {
-            background-color: #FFF7CC;
-            border: 1px solid #FFC81E;
-            border-radius: 18px;
-        }
-
-        .theme-btn-primary {
-            background-color: #E87F24;
-            color: white;
-            transition: all 0.3s ease;
-        }
-
-        .theme-btn-primary:hover {
-            background-color: #FFC81E;
-            color: #1f2937;
-        }
-
-        .theme-link {
-            color: #73A5CA;
-            transition: color 0.3s ease;
-        }
-
-        .theme-link:hover {
-            color: #E87F24;
-        }
-
-        .theme-divider {
-            height: 4px;
-            width: 80px;
-            border-radius: 9999px;
-            background: linear-gradient(to right, #E87F24, #FFC81E, #73A5CA);
-        }
-
         @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
+            to { transform: rotate(360deg); }
+        }
+        .back-link {
+            color: #3B6DB4;
+            font-size: 0.875rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: #2d5a9e;
+        }
+        .empty-state-box {
+            border: 2px dashed #A8C4E8;
+            border-radius: 16px;
+            background: #F7FAFF;
+            min-height: 380px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+        }
+        #emptyState.hidden {
+            display: none !important;
+        }
+
+        .empty-state-icon {
+            color: #B8CCE8;
+        }
+
+        .empty-state-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #1A2F5A;
+        }
+
+        .empty-state-desc {
+            font-size: 0.8125rem;
+            color: #6B7DA8;
+            text-align: center;
+            max-width: 280px;
+        }
+        #previewWrapper {
+            border: 1px solid #DDEAF8;
+            border-radius: 16px;
+            overflow: hidden;
+            background: #F7FAFF;
+        }
+        .info-box {
+            background: #F7FAFF;
+            border: 1px solid #DDEAF8;
+            border-radius: 12px;
+            padding: 14px;
+        }
+
+        .info-box-title {
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: #1A2F5A;
+            margin-bottom: 4px;
+        }
+
+        .info-box-text {
+            font-size: 0.8125rem;
+            color: #6B7DA8;
+        }
+
+        .status-chip {
+            display: inline-block;
+            margin-top: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 3px 12px;
+            border-radius: 9999px;
+        }
+
+        .status-chip-ready {
+            background: #D4EDDA;
+            color: #1A5E35;
+        }
+
+        .status-chip-pending {
+            background: #E8F0FB;
+            color: #3B6DB4;
+        }
+        .loading-hint {
+            background: #F0F6FF;
+            border: 1px solid #BBCFEC;
+            border-radius: 12px;
+            padding: 14px;
+            margin-top: 12px;
+        }
+        .camera-preview-box {
+            background: #F7FAFF;
+            border: 1px solid #DDEAF8;
+            border-radius: 12px;
+            padding: 12px;
+            overflow: hidden;
+        }
+
+        .camera-placeholder-box {
+            height: 200px;
+            border: 2px dashed #A8C4E8;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: #ffffff;
+        }
+        #cameraPlaceholder.hidden {
+            display: none !important;
+        }
+        .error-alert {
+            background: #FFF1F2;
+            border: 1px solid #FDA4AF;
+            border-radius: 12px;
+            color: #BE123C;
+            padding: 14px;
+            font-size: 0.8125rem;
+            margin-bottom: 16px;
         }
     </style>
 </head>
 
-<body class="min-h-screen text-gray-800 font-body" style="background-color:#FEFDDF;">
+<body class="min-h-screen text-gray-800 font-body">
+
     <!--begin::Header-->
-    <header class="sticky top-0 z-50 backdrop-blur border-b" style="background-color:rgba(254,253,223,0.92); border-color:#FFC81E;">
+    <header class="site-header">
         <!--begin::Container-->
         <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
             <!--begin::Brand-->
@@ -153,7 +481,7 @@
                 <!--begin::Brand Title-->
                 <h1 class="text-lg font-title tracking-wide">
                     <!--begin::Brand Primary-->
-                    <span style="color:#73A5CA;">FitScan</span>
+                    <span style="color:#3B6DB4;">FitScan</span>
                     <!--end::Brand Primary-->
                     <!--begin::Brand Secondary-->
                     <span style="color:#E87F24;">AI</span>
@@ -163,7 +491,7 @@
             </div>
             <!--end::Brand-->
             <!--begin::Back Link-->
-            <a href="{{ route('home') }}" class="text-sm font-elegant theme-link inline-flex items-center gap-2">
+            <a href="{{ route('home') }}" class="back-link font-elegant">
                 <!--begin::Back Link Icon-->
                 <span>←</span>
                 <!--end::Back Link Icon-->
@@ -178,7 +506,7 @@
     <!--end::Header-->
 
     <!--begin::Main-->
-    <main class="max-w-6xl mx-auto px-6 py-10">
+    <main class="max-w-6xl mx-auto px-6 py-10" style="position:relative; z-index:1;">
         <!--begin::Grid-->
         <div class="grid lg:grid-cols-3 gap-8">
             <!--begin::Left Panel-->
@@ -186,26 +514,37 @@
                 <!--begin::Left Card-->
                 <div class="panel-card p-6">
                     <!--begin::Section Header-->
-                    <div class="mb-6">
-                        <!--begin::Title-->
-                        <h2 class="text-xl font-elegant font-semibold mb-2" style="color:#E87F24;">
-                            Unggah Gambar
-                        </h2>
-                        <!--end::Title-->
-                        <!--begin::Description-->
-                        <p class="text-sm text-gray-600 leading-relaxed">
-                            Pilih sumber gambar terlebih dahulu, lalu siapkan foto outfit agar sistem dapat mengidentifikasi jenis pakaian yang dikenakan dengan lebih akurat.
-                        </p>
-                        <!--end::Description-->
-                        <!--begin::Divider-->
-                        <div class="mt-3 theme-divider"></div>
-                        <!--end::Divider-->
-
+                    <div class="flex items-start gap-4 mb-6">
+                        <!--begin::Icon Bubble-->
+                        <div class="section-icon-bubble">
+                            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path d="M12 16v-4M12 8h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M4 16.5A9 9 0 0112 3v0" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M7 3.5A9 9 0 0121 12" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <!--end::Icon Bubble-->
+                        <!--begin::Title Group-->
+                        <div>
+                            <!--begin::Title-->
+                            <h2 class="section-title">Unggah Gambar</h2>
+                            <!--end::Title-->
+                            <!--begin::Description-->
+                            <p class="section-desc mt-1">
+                                Pilih sumber gambar terlebih dahulu, lalu siapkan foto outfit agar sistem dapat mengidentifikasi jenis pakaian yang dikenakan dengan lebih akurat.
+                            </p>
+                            <!--end::Description-->
+                            <!--begin::Divider-->
+                            <div class="theme-divider"></div>
+                            <!--end::Divider-->
+                        </div>
+                        <!--end::Title Group-->
                     </div>
                     <!--end::Section Header-->
+
                     @if ($errors->any())
                         <!--begin::Error Alert-->
-                        <div class="mb-5 rounded-2xl p-4 text-sm" style="background:#fff1f2; border:1px solid #fda4af; color:#be123c;">
+                        <div class="error-alert">
                             <ul class="list-disc list-inside space-y-1">
                                 @foreach ($errors->all() as $error)
                                     <li>{{ $error }}</li>
@@ -214,58 +553,87 @@
                         </div>
                         <!--end::Error Alert-->
                     @endif
+
                     <!--begin::Form-->
-                    <form id="uploadForm" action="{{ route('upload.store') }}" method="POST" enctype="multipart/form-data" class="space-y-5">
+                    <form id="uploadForm" action="{{ route('upload.store') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
                         @csrf
-                        <!--begin::Source Picker-->
-                        <div class="soft-box p-4">
-                            <!--begin::Step Title-->
-                            <p class="text-sm font-medium mb-3" style="color:#374151;">
-                                1. Pilih sumber gambar
-                            </p>
-                            <!--end::Step Title-->
-                            <!--begin::Main Button-->
-                            <button type="button" id="openSourcePickerBtn" class="w-full px-4 py-3 rounded-2xl text-sm font-medium theme-btn-primary">
+
+                        <!--begin::Step 1 - Source Picker-->
+                        <div class="step-block">
+                            <!--begin::Step Header-->
+                            <div class="flex items-center gap-2 mb-3">
+                                <div class="step-badge">1</div>
+                                <span class="step-label">Pilih sumber gambar</span>
+                            </div>
+                            <!--end::Step Header-->
+
+                            <!--begin::Main Upload Button-->
+                            <button type="button" id="tabUpload" class="source-btn-main">
+                                <!--begin::Upload Icon-->
+                                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <polyline points="17 8 12 3 7 8" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <line x1="12" y1="3" x2="12" y2="15" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                <!--end::Upload Icon-->
                                 Unggah
                             </button>
-                            <!--end::Main Button-->
-                            <!--begin::Options-->
-                            <div id="sourcePicker" class="hidden mt-3 grid grid-cols-2 gap-3">
-                                <!--begin::Camera Btn-->
-                                <button type="button" id="tabCamera" class="px-4 py-3 rounded-2xl camera-btn-secondary text-sm font-medium transition">
+                            <!--end::Main Upload Button-->
+
+                            <!--begin::Sub Buttons Row-->
+                            <div id="subBtnRow" class="source-btn-sub-row">
+                                <!--begin::Camera Button-->
+                                <button type="button" id="tabCamera" class="source-btn-secondary">
+                                    <!--begin::Camera Icon-->
+                                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V7a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <circle cx="12" cy="13" r="4" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    <!--end::Camera Icon-->
                                     Gunakan Kamera
                                 </button>
-                                <!--end::Camera Btn-->
-                                <!--begin::Upload Btn-->
-                                <button type="button" id="tabUpload" class="px-4 py-3 rounded-2xl camera-btn-secondary text-sm font-medium transition">
+                                <!--end::Camera Button-->
+                                <!--begin::Device Button-->
+                                <button type="button" id="tabDevice" class="source-btn-secondary">
+                                    <!--begin::Device Icon-->
+                                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    <!--end::Device Icon-->
                                     Pilih dari Perangkat
                                 </button>
-                                <!--end::Upload Btn-->
+                                <!--end::Device Button-->
                             </div>
-                            <!--end::Options-->
+                            <!--end::Sub Buttons Row-->
                         </div>
-                        <!--end::Source Picker-->
+                        <!--end::Step 1-->
+
                         <!--begin::Upload Mode-->
-                        <div id="uploadMode" class="hidden space-y-3">
+                        <div id="uploadMode" class="hidden step-block space-y-3">
+                            <!--begin::Step Header-->
+                            <div class="flex items-center gap-2 mb-1">
+                                <div class="step-badge">2</div>
+                                <span class="step-label">Pilih file gambar</span>
+                            </div>
+                            <!--end::Step Header-->
                             <!--begin::File Input-->
-                            <div>
-                                <!--begin::File Label-->
-                                <label class="block text-sm font-medium mb-2" style="color:#374151;">
-                                    2. Pilih file gambar
-                                </label>
-                                <!--end::File Label-->
-                                <!--begin::File Control-->
-                                <input type="file" name="image" id="imageInput" accept=".jpg,.jpeg,.png" class="block w-full rounded-2xl px-4 py-3" style="background-color:#FFFDF4; border:1px solid #F3D66B;">
-                                <!--end::File Control-->
+                            <div class="file-input-styled">
+                                <input type="file" name="image" id="imageInput" accept=".jpg,.jpeg,.png">
                             </div>
                             <!--end::File Input-->
                             <!--begin::Tips-->
-                            <div class="yellow-box p-4">
+                            <div class="tip-box">
                                 <!--begin::Tips Title-->
-                                <p class="text-sm font-medium mb-1" style="color:#9a6700;">Saran</p>
+                                <p class="tip-box-title">
+                                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="color:#3B6DB4;">
+                                        <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M12 8v4M12 16h.01" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    Saran
+                                </p>
                                 <!--end::Tips Title-->
                                 <!--begin::Tips Text-->
-                                <p class="text-sm" style="color:#7c5a00;">
+                                <p class="tip-box-text">
                                     Gunakan foto yang fokus ke outfit agar sistem dapat mengidentifikasi jenis pakaian dengan lebih akurat.
                                 </p>
                                 <!--end::Tips Text-->
@@ -273,19 +641,30 @@
                             <!--end::Tips-->
                         </div>
                         <!--end::Upload Mode-->
+
                         <!--begin::Camera Mode-->
-                        <div id="cameraMode" class="hidden space-y-4">
+                        <div id="cameraMode" class="hidden step-block space-y-3">
+                            <!--begin::Step Header-->
+                            <div class="flex items-center gap-2 mb-1">
+                                <div class="step-badge">2</div>
+                                <span class="step-label">Kontrol kamera</span>
+                            </div>
+                            <!--end::Step Header-->
                             <!--begin::Camera Preview-->
-                            <div class="soft-box p-3">
+                            <div class="camera-preview-box">
                                 <!--begin::Video-->
-                                <video id="cameraVideo" autoplay playsinline class="w-full rounded-2xl bg-black hidden"></video>
+                                <video id="cameraVideo" autoplay playsinline class="w-full rounded-xl bg-black hidden"></video>
                                 <!--end::Video-->
                                 <!--begin::Canvas-->
                                 <canvas id="cameraCanvas" class="hidden"></canvas>
                                 <!--end::Canvas-->
                                 <!--begin::Placeholder-->
-                                <div id="cameraPlaceholder" class="h-56 rounded-2xl border border-dashed flex items-center justify-center text-center bg-white" style="border-color:#73A5CA;">
+                                <div id="cameraPlaceholder" class="camera-placeholder-box">
                                     <div>
+                                        <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="color:#A8C4E8; margin:0 auto 8px;">
+                                            <path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V7a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <circle cx="12" cy="13" r="4" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
                                         <p class="text-sm font-medium text-gray-700">Kamera belum aktif</p>
                                         <p class="text-xs text-gray-500 mt-1">Klik tombol mulai kamera untuk menampilkan preview kamera.</p>
                                     </div>
@@ -293,48 +672,58 @@
                                 <!--end::Placeholder-->
                             </div>
                             <!--end::Camera Preview-->
-                            <!--begin::Camera Controls-->
-                            <div class="soft-box p-4">
-                                <!--begin::Step Title-->
-                                <p class="text-sm font-medium mb-3" style="color:#374151;">2. Kontrol kamera</p>
-                                <!--end::Step Title-->
-                                <!--begin::Primary Controls-->
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                    <!--begin::Start Camera Button-->
-                                    <button type="button" id="startCameraBtn" class="px-4 py-3 rounded-2xl camera-btn-dark text-sm font-medium transition">
-                                        Mulai Kamera
-                                    </button>
-                                    <!--end::Start Camera Button-->
-                                    <!--begin::Capture Button-->
-                                    <button type="button" id="capturePhotoBtn" class="px-4 py-3 rounded-2xl camera-btn-secondary text-sm font-medium transition opacity-50 cursor-not-allowed" disabled>
-                                        Ambil Foto
-                                    </button>
-                                    <!--end::Capture Button-->
-                                </div>
-                                <!--end::Primary Controls-->
-                                <!--begin::Secondary Controls-->
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">
-                                    <!--begin::Switch Camera Button-->
-                                    <button type="button" id="switchCameraBtn" class="px-4 py-3 rounded-2xl camera-btn-secondary text-sm font-medium transition">
-                                        Ganti Kamera
-                                    </button>
-                                    <!--end::Switch Camera Button-->
-                                    <!--begin::Retake Button-->
-                                    <button type="button" id="retakePhotoBtn" class="px-4 py-3 rounded-2xl camera-btn-secondary text-sm font-medium transition hidden">
-                                        Ambil Ulang
-                                    </button>
-                                    <!--end::Retake Button-->
-                                </div>
-                                <!--end::Secondary Controls-->
+                            <!--begin::Camera Buttons-->
+                            <div class="flex gap-3">
+                                <!--begin::Start Camera Button-->
+                                <button type="button" id="startCameraBtn" class="camera-btn-primary">
+                                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <polygon points="5 3 19 12 5 21 5 3" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    Mulai Kamera
+                                </button>
+                                <!--end::Start Camera Button-->
+                                <!--begin::Capture Button-->
+                                <button type="button" id="capturePhotoBtn" class="camera-btn-outline" disabled>
+                                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <circle cx="12" cy="12" r="10" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <circle cx="12" cy="12" r="3"/>
+                                    </svg>
+                                    Ambil Foto
+                                </button>
+                                <!--end::Capture Button-->
                             </div>
-                            <!--end::Camera Controls-->
+                            <!--end::Camera Buttons-->
+                            <!--begin::Switch & Retake-->
+                            <div class="flex gap-3">
+                                <!--begin::Switch Camera Button-->
+                                <button type="button" id="switchCameraBtn" class="camera-btn-outline" style="flex:1;">
+                                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <polyline points="1 4 1 10 7 10" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M3.51 15a9 9 0 102.13-9.36L1 10" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    Ganti Kamera
+                                </button>
+                                <!--end::Switch Camera Button-->
+                                <!--begin::Retake Button-->
+                                <button type="button" id="retakePhotoBtn" class="camera-btn-outline hidden" style="flex:1;">
+                                    Ambil Ulang
+                                </button>
+                                <!--end::Retake Button-->
+                            </div>
+                            <!--end::Switch & Retake-->
                             <!--begin::Camera Guide-->
-                            <div class="blue-box p-4">
+                            <div class="tip-box">
                                 <!--begin::Guide Title-->
-                                <p class="text-sm font-medium mb-1" style="color:#1e3a5f;">Alur penggunaan kamera</p>
+                                <p class="tip-box-title">
+                                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="color:#3B6DB4;">
+                                        <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M12 8v4M12 16h.01" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    Alur penggunaan kamera
+                                </p>
                                 <!--end::Guide Title-->
                                 <!--begin::Guide List-->
-                                <ol class="text-sm space-y-1 list-decimal list-inside" style="color:#315d89;">
+                                <ol class="tip-box-text list-decimal list-inside space-y-1">
                                     <li>Klik <strong>Mulai Kamera</strong></li>
                                     <li>Arahkan kamera ke outfit</li>
                                     <li>Klik <strong>Ambil Foto</strong></li>
@@ -345,6 +734,7 @@
                             <!--end::Camera Guide-->
                         </div>
                         <!--end::Camera Mode-->
+
                         <!--begin::Hidden Inputs-->
                         <input type="hidden" name="crop_x" id="crop_x">
                         <input type="hidden" name="crop_y" id="crop_y">
@@ -353,32 +743,40 @@
                         <input type="hidden" name="display_width" id="display_width">
                         <input type="hidden" name="display_height" id="display_height">
                         <!--end::Hidden Inputs-->
-                        <!--begin::Crop Instruction-->
-                        <div class="soft-box p-4">
-                            <!--begin::Step Title-->
-                            <p class="text-sm font-medium mb-2" style="color:#374151;">3. Atur area crop</p>
-                            <!--end::Step Title-->
+
+                        <!--begin::Step 3 - Crop Instruction-->
+                        <div class="step-block">
+                            <!--begin::Step Header-->
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="step-badge">3</div>
+                                <span class="step-label">Atur area crop</span>
+                            </div>
+                            <!--end::Step Header-->
                             <!--begin::Instruction List-->
-                            <ul class="text-sm text-gray-600 space-y-1 leading-relaxed">
-                                <li>• Geser kotak crop ke area pakaian.</li>
-                                <li>• Tarik titik kanan bawah untuk memperbesar atau memperkecil area.</li>
-                                <li>• Area di luar kotak crop tidak akan dianalisis.</li>
+                            <ul class="bullet-list">
+                                <li>Geser kotak crop ke area pakaian.</li>
+                                <li>Tarik titik kanan bawah untuk memperbesar atau memperkecil area.</li>
+                                <li>Area di luar kotak crop tidak akan dianalisis.</li>
                             </ul>
                             <!--end::Instruction List-->
                         </div>
-                        <!--end::Crop Instruction-->
+                        <!--end::Step 3-->
+
                         <!--begin::Submit Section-->
                         <div>
                             <!--begin::Submit Button-->
-                            <button type="submit" id="submitButton" class="w-full px-5 py-3 rounded-2xl font-medium transition flex items-center justify-center gap-3 theme-btn-primary">
+                            <button type="submit" id="submitButton" class="submit-btn">
+                                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
                                 <span id="submitText">Analisis Gambar</span>
                                 <span id="submitSpinner" class="spinner hidden"></span>
                             </button>
                             <!--end::Submit Button-->
                             <!--begin::Loading Hint-->
-                            <div id="loadingHint" class="hidden blue-box p-4 mt-3">
-                                <p class="text-sm font-medium mb-1" style="color:#1e3a5f;">AI sedang menganalisis gambar</p>
-                                <p class="text-sm" style="color:#315d89;">
+                            <div id="loadingHint" class="loading-hint hidden">
+                                <p class="tip-box-title">AI sedang menganalisis gambar</p>
+                                <p class="tip-box-text">
                                     Mohon tunggu beberapa saat. Sistem sedang memproses gambar dan mengidentifikasi jenis outfit yang terdeteksi.
                                 </p>
                             </div>
@@ -391,39 +789,63 @@
                 <!--end::Left Card-->
             </div>
             <!--end::Left Panel-->
+
             <!--begin::Right Panel-->
             <div class="lg:col-span-2">
                 <!--begin::Right Card-->
                 <div class="panel-card p-6 md:p-8 min-h-[520px]">
                     <!--begin::Preview Header-->
-                    <div class="mb-6">
-                        <!--begin::Title-->
-                        <h2 class="text-xl font-elegant font-semibold" style="color:#E87F24;">
-                            Preview Gambar
-                        </h2>
-                        <!--end::Title-->
-                        <!--begin::Description-->
-                        <p class="text-sm text-gray-600 mt-1">
-                            Setelah gambar dipilih atau foto diambil, atur area outfit secara manual agar hasil analisis AI lebih akurat.
-                        </p>
-                        <!--end::Description-->
-                        <!--begin::Divider-->
-                        <div class="mt-3 theme-divider"></div>
-                        <!--end::Divider-->
+                    <div class="flex items-start gap-4 mb-6">
+                        <!--begin::Icon Bubble-->
+                        <div class="section-icon-bubble">
+                            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="color:#3B6DB4;">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <circle cx="8.5" cy="8.5" r="1.5"/>
+                                <polyline points="21 15 16 10 5 21" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <!--end::Icon Bubble-->
+                        <!--begin::Title Group-->
+                        <div>
+                            <!--begin::Title-->
+                            <h2 class="section-title">Preview Gambar</h2>
+                            <!--end::Title-->
+                            <!--begin::Description-->
+                            <p class="section-desc mt-1">
+                                Setelah gambar dipilih atau foto diambil, atur area outfit secara manual agar hasil analisis AI lebih akurat.
+                            </p>
+                            <!--end::Description-->
+                            <!--begin::Divider-->
+                            <div class="theme-divider"></div>
+                            <!--end::Divider-->
+                        </div>
+                        <!--end::Title Group-->
                     </div>
                     <!--end::Preview Header-->
+
                     <!--begin::Empty State-->
-                    <div id="emptyState" class="p-5 h-[420px] rounded-3xl border border-dashed flex items-center justify-center text-center" style="border-color:#73A5CA; background-color:#FFFDF4;">
-                        <div>
-                            <p class="text-lg font-medium text-gray-700">Belum ada gambar dipilih</p>
-                            <p class="text-sm text-gray-500 mt-2">Preview akan muncul di sini setelah file dipilih atau foto berhasil diambil.</p>
-                        </div>
+                    <div id="emptyState" class="empty-state-box">
+                        <!--begin::Empty State Icon-->
+                        <svg class="empty-state-icon" width="80" height="80" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                            <circle cx="8.5" cy="8.5" r="1.5"/>
+                            <polyline points="21 15 16 10 5 21" stroke-linecap="round" stroke-linejoin="round"/>
+                            <rect x="1" y="1" width="22" height="22" rx="3" ry="3" style="opacity:0.2;"/>
+                        </svg>
+                        <!--end::Empty State Icon-->
+                        <!--begin::Empty State Title-->
+                        <p class="empty-state-title">Belum ada gambar dipilih</p>
+                        <!--end::Empty State Title-->
+                        <!--begin::Empty State Desc-->
+                        <p class="empty-state-desc">Preview akan muncul di sini setelah file dipilih atau foto berhasil diambil.</p>
+                        <!--end::Empty State Desc-->
                     </div>
                     <!--end::Empty State-->
+
                     <!--begin::Preview Section-->
                     <div id="previewSection" class="hidden">
                         <!--begin::Preview Wrapper-->
-                        <div id="previewWrapper" class="relative inline-block max-w-full border rounded-3xl overflow-hidden" style="border-color:#FFC81E; background-color:#FFFDF4;">
+                        <div id="previewWrapper" class="relative inline-block max-w-full">
                             <!--begin::Preview Image-->
                             <img id="previewImage" src="" alt="Preview" class="block max-w-full h-auto">
                             <!--end::Preview Image-->
@@ -436,18 +858,25 @@
                             <!--end::Crop Box-->
                         </div>
                         <!--end::Preview Wrapper-->
+
                         <!--begin::Preview Info Grid-->
                         <div class="mt-4 grid sm:grid-cols-2 gap-4">
                             <!--begin::Image Status-->
-                            <div class="soft-box p-4">
-                                <p class="text-sm font-medium mb-1" style="color:#374151;">Status gambar</p>
-                                <p id="imageStatus" class="text-sm text-gray-600">Belum ada gambar untuk dianalisis.</p>
+                            <div class="info-box">
+                                <p class="info-box-title">Status gambar</p>
+                                <p id="imageStatus" class="info-box-text">Belum ada gambar untuk dianalisis.</p>
+                                <span id="statusChip" class="status-chip status-chip-ready hidden">Siap</span>
                             </div>
                             <!--end::Image Status-->
                             <!--begin::Crop Status-->
-                            <div class="soft-box p-4">
-                                <p class="text-sm font-medium mb-1" style="color:#374151;">Status crop</p>
-                                <p class="text-sm text-gray-600">Area di luar kotak crop akan diabaikan saat analisis.</p>
+                            <div class="info-box">
+                                <p class="info-box-title">Status crop</p>
+                                <p id="cropStatusText" class="info-box-text">
+                                    Area di luar kotak crop akan diabaikan saat analisis.
+                                </p>
+                                <span id="cropStatusChip" class="status-chip status-chip-pending">
+                                    Belum diatur
+                                </span>
                             </div>
                             <!--end::Crop Status-->
                         </div>
@@ -464,6 +893,55 @@
     <!--end::Main-->
 
     <script>
+        // Handle page show event to reset state when navigating back
+        window.addEventListener('pageshow', function (event) {
+            const isBackForward =
+                event.persisted ||
+                window.performance.navigation.type === 2;
+
+            if (isBackForward) {
+
+                // Clear file input
+                if (imageInput) {
+                    imageInput.value = '';
+                }
+
+                // Reset preview image
+                if (previewImage) {
+                    previewImage.src = '';
+                }
+
+                // Hide preview section
+                if (previewSection) {
+                    previewSection.classList.add('hidden');
+                }
+
+                // Show empty state
+                if (emptyState) {
+                    emptyState.classList.remove('hidden');
+                }
+
+                // Reset crop box
+                if (cropBox) {
+                    cropBox.classList.add('hidden');
+                }
+
+                // Reset crop values
+                cropXInput.value = '';
+                cropYInput.value = '';
+                cropWidthInput.value = '';
+                cropHeightInput.value = '';
+                displayWidthInput.value = '';
+                displayHeightInput.value = '';
+
+                // Stop camera
+                stopCamera();
+
+                // Hard reload
+                window.location.reload();
+            }
+        });
+
         // Get all necessary DOM elements
         const uploadForm = document.getElementById('uploadForm');
         const submitButton = document.getElementById('submitButton');
@@ -478,6 +956,9 @@
         const cropBox = document.getElementById('cropBox');
         const cropHandle = document.getElementById('cropHandle');
         const imageStatus = document.getElementById('imageStatus');
+        const statusChip = document.getElementById('statusChip');
+        const cropStatusChip = document.getElementById('cropStatusChip');
+        const cropStatusText = document.getElementById('cropStatusText');
 
         const cropXInput = document.getElementById('crop_x');
         const cropYInput = document.getElementById('crop_y');
@@ -486,10 +967,10 @@
         const displayWidthInput = document.getElementById('display_width');
         const displayHeightInput = document.getElementById('display_height');
 
-        const openSourcePickerBtn = document.getElementById('openSourcePickerBtn');
-        const sourcePicker = document.getElementById('sourcePicker');
         const tabUpload = document.getElementById('tabUpload');
         const tabCamera = document.getElementById('tabCamera');
+        const tabDevice = document.getElementById('tabDevice');
+        const subBtnRow = document.getElementById('subBtnRow');
         const uploadMode = document.getElementById('uploadMode');
         const cameraMode = document.getElementById('cameraMode');
 
@@ -513,46 +994,76 @@
         let boxHeight = 0;
         let isSubmitting = false;
 
+        // Helper: tampilkan sub button row
+        function showSubBtnRow() {
+            subBtnRow.style.display = 'grid';
+        }
+
+        // Helper: sembunyikan sub button row
+        function hideSubBtnRow() {
+            subBtnRow.style.display = 'none';
+        }
+
+        // Helper: cek apakah sub button row sedang tampil
+        function isSubBtnRowVisible() {
+            return subBtnRow.style.display === 'grid';
+        }
+
+        // Helper: set active state on source buttons
+        function setActiveSourceBtn(activeBtn) {
+            tabUpload.className = 'source-btn-main';
+            tabUpload.style.background = '#3B6DB4';
+            tabUpload.style.color = '#ffffff';
+            [tabCamera, tabDevice].forEach(btn => {
+                btn.className = 'source-btn-secondary';
+            });
+            if (activeBtn === tabCamera) {
+                tabCamera.className = 'source-btn-secondary active';
+            } else if (activeBtn === tabDevice) {
+                tabDevice.className = 'source-btn-secondary active';
+            }
+        }
+
         // Functions to switch between modes (Upload)
+        // Tombol Unggah berfungsi sebagai toggle: tampilkan/sembunyikan sub buttons
         function switchToUploadMode() {
-            sourcePicker.classList.remove('hidden');
-            uploadMode.classList.remove('hidden');
-            cameraMode.classList.add('hidden');
-
-            tabUpload.className = 'px-4 py-3 rounded-2xl text-white text-sm font-medium transition';
-            tabUpload.style.backgroundColor = '#E87F24';
-
-            tabCamera.className = 'px-4 py-3 rounded-2xl camera-btn-secondary text-sm font-medium transition';
-            tabCamera.style.backgroundColor = '';
-            tabCamera.style.color = '';
-            tabCamera.style.borderColor = '';
+            if (isSubBtnRowVisible()) {
+                // Sembunyikan sub buttons jika sudah terlihat
+                hideSubBtnRow();
+            } else {
+                // Tampilkan sub buttons
+                showSubBtnRow();
+                uploadMode.classList.add('hidden');
+                cameraMode.classList.add('hidden');
+            }
 
             stopCamera();
         }
 
         // Functions to switch between modes (Camera)
         function switchToCameraMode() {
-            sourcePicker.classList.remove('hidden');
+            // Sembunyikan sub buttons setelah pilihan dibuat
+            hideSubBtnRow();
             uploadMode.classList.add('hidden');
             cameraMode.classList.remove('hidden');
+            setActiveSourceBtn(tabCamera);
+        }
 
-            tabCamera.className = 'px-4 py-3 rounded-2xl text-white text-sm font-medium transition';
-            tabCamera.style.backgroundColor = '#E87F24';
-
-            tabUpload.className = 'px-4 py-3 rounded-2xl camera-btn-secondary text-sm font-medium transition';
-            tabUpload.style.backgroundColor = '';
-            tabUpload.style.color = '';
-            tabUpload.style.borderColor = '';
+        // Functions to switch between modes (Device - same as upload for now)
+        function switchToDeviceMode() {
+            // Sembunyikan sub buttons setelah pilihan dibuat
+            hideSubBtnRow();
+            uploadMode.classList.remove('hidden');
+            cameraMode.classList.add('hidden');
+            setActiveSourceBtn(tabDevice);
+            stopCamera();
+            imageInput.click();
         }
 
         // Event listeners
-        openSourcePickerBtn.addEventListener('click', function () {
-            sourcePicker.classList.remove('hidden');
-        });
-
-        // Default to upload mode on page load
         tabUpload.addEventListener('click', switchToUploadMode);
         tabCamera.addEventListener('click', switchToCameraMode);
+        tabDevice.addEventListener('click', switchToDeviceMode);
 
         // Crop box functions
         function updateCropInputs() {
@@ -570,7 +1081,19 @@
             cropBox.style.top = boxY + 'px';
             cropBox.style.width = boxWidth + 'px';
             cropBox.style.height = boxHeight + 'px';
+
             updateCropInputs();
+
+            if (cropStatusChip) {
+                cropStatusChip.textContent = 'Crop siap';
+                cropStatusChip.classList.remove('status-chip-pending');
+                cropStatusChip.classList.add('status-chip-ready');
+            }
+
+            if (cropStatusText) {
+                cropStatusText.textContent =
+                    'Area outfit berhasil dipilih dan siap dianalisis.';
+            }
         }
 
         // Show preview from a given image source
@@ -579,6 +1102,9 @@
             emptyState.classList.add('hidden');
             previewSection.classList.remove('hidden');
             imageStatus.textContent = sourceLabel;
+            if (statusChip) {
+                statusChip.classList.remove('hidden');
+            }
 
             previewImage.onload = function () {
                 const width = previewImage.clientWidth;
@@ -625,7 +1151,14 @@
                 capturePhotoBtn.disabled = false;
                 capturePhotoBtn.classList.remove('opacity-50', 'cursor-not-allowed');
 
-                startCameraBtn.textContent = 'Kamera Aktif';
+                startCameraBtn.innerHTML = `
+                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10" stroke-linecap="round" stroke-linejoin="round"/>
+                        <line x1="10" y1="15" x2="10" y2="9" stroke-linecap="round" stroke-linejoin="round"/>
+                        <line x1="14" y1="15" x2="14" y2="9" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Kamera Aktif
+                `;
             } catch (error) {
                 alert('Kamera tidak bisa diakses. Pastikan izin kamera sudah diberikan.');
             }
@@ -683,12 +1216,21 @@
                 cameraPlaceholder.classList.remove('hidden');
                 cameraPlaceholder.innerHTML = `
                     <div>
+                        <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="color:#A8C4E8; margin:0 auto 8px;">
+                            <path d="M22 11.08V12a10 10 0 11-5.93-9.14" stroke-linecap="round" stroke-linejoin="round"/>
+                            <polyline points="22 4 12 14.01 9 11.01" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
                         <p class="text-sm font-medium text-gray-700">Foto berhasil diambil</p>
                         <p class="text-xs text-gray-500 mt-1">Preview foto sudah masuk ke sistem dan bisa langsung di-crop.</p>
                     </div>
                 `;
 
-                startCameraBtn.textContent = 'Mulai Kamera';
+                startCameraBtn.innerHTML = `
+                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <polygon points="5 3 19 12 5 21 5 3" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Mulai Kamera
+                `;
             }, 'image/png');
         });
 
@@ -696,6 +1238,10 @@
         retakePhotoBtn.addEventListener('click', async function () {
             cameraPlaceholder.innerHTML = `
                 <div>
+                    <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="color:#A8C4E8; margin:0 auto 8px;">
+                        <path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V7a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z" stroke-linecap="round" stroke-linejoin="round"/>
+                        <circle cx="12" cy="13" r="4" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
                     <p class="text-sm font-medium text-gray-700">Kamera belum aktif</p>
                     <p class="text-xs text-gray-500 mt-1">Klik tombol mulai kamera untuk menampilkan preview kamera.</p>
                 </div>
@@ -792,10 +1338,10 @@
             stopCamera();
         });
 
-        // Initialize page with upload mode active
+        // Initialize page with all modes hidden
         uploadMode.classList.add('hidden');
         cameraMode.classList.add('hidden');
-        sourcePicker.classList.add('hidden');
+        subBtnRow.style.display = 'none';
     </script>
 </body>
 </html>
