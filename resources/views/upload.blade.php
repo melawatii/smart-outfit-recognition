@@ -1244,6 +1244,40 @@
             isResizing = false;
         });
 
+        // Function to send form data via AJAX
+        async function sendFormData(formData) {
+            try {
+                const response = await fetch(
+                    uploadForm.action,
+                    {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-CSRF-TOKEN':
+                                document.querySelector(
+                                    'meta[name="csrf-token"]'
+                                ).content
+                        }
+                    }
+                );
+
+                const html = await response.text();
+                document.open();
+                document.write(html);
+                document.close();
+
+            } catch(error) {
+                console.error(error);
+                alert(error);
+
+                isSubmitting = false;
+                submitButton.disabled = false;
+                submitSpinner.classList.add('hidden');
+                loadingHint.classList.add('hidden');
+                submitText.textContent = 'Analisis Gambar';
+            }
+        }
+
         // Form submission handler
         uploadForm.addEventListener('submit', async function (e) {
 
@@ -1253,7 +1287,10 @@
                 return;
             }
 
-            if (!imageInput.files.length) {
+            const isCameraMode = !cameraMode.classList.contains('hidden');
+            const hasCameraImage = document.getElementById('cropped_image').value !== '';
+
+            if (!imageInput.files.length && !(isCameraMode && hasCameraImage)) {
                 alert('Pilih gambar dulu');
                 return;
             }
@@ -1269,38 +1306,18 @@
 
             loadingHint.classList.remove('hidden');
 
-            const canvas =
-                document.createElement('canvas');
+            const canvas = document.createElement('canvas');
+            const scaleX = previewImage.naturalWidth ? previewImage.naturalWidth / previewImage.clientWidth : 1;
+            const scaleY = previewImage.naturalHeight ? previewImage.naturalHeight / previewImage.clientHeight : 1;
+            const cropX = parseFloat(cropBox.style.left);
+            const cropY = parseFloat(cropBox.style.top);
+            const cropWidth = cropBox.offsetWidth;
+            const cropHeight = cropBox.offsetHeight;
 
-            const scaleX =
-                previewImage.naturalWidth /
-                previewImage.clientWidth;
+            canvas.width = cropWidth * scaleX;
+            canvas.height = cropHeight * scaleY;
 
-            const scaleY =
-                previewImage.naturalHeight /
-                previewImage.clientHeight;
-
-            const cropX =
-                parseFloat(cropBox.style.left);
-
-            const cropY =
-                parseFloat(cropBox.style.top);
-
-            const cropWidth =
-                cropBox.offsetWidth;
-
-            const cropHeight =
-                cropBox.offsetHeight;
-
-            canvas.width =
-                cropWidth * scaleX;
-
-            canvas.height =
-                cropHeight * scaleY;
-
-            const ctx =
-                canvas.getContext('2d');
-
+            const ctx = canvas.getContext('2d');
             ctx.drawImage(
                 previewImage,
 
@@ -1317,66 +1334,33 @@
                 canvas.height
             );
 
+            // Convert canvas crop to Blob and send via AJAX
             canvas.toBlob(async function(blob) {
-
                 const formData = new FormData();
+                const isCameraMode = !cameraMode.classList.contains('hidden');
 
-                formData.append(
-                    'original_image',
-                    imageInput.files[0]
-                );
+                // If in camera mode, we need to send both the original image (from camera) and the cropped image (from canvas)
+                if (isCameraMode) {
+                    cameraCanvas.toBlob(function(originalBlob) {
+                        const originalFile = new File([originalBlob], 'camera-original.webp', { type: 'image/webp' });
+                        formData.append('image', originalFile);
+                        formData.append('original_image', originalFile);
 
-                formData.append(
-                    'image',
-                    imageInput.files[0]
-                );
+                        // Cropped image dari canvas crop
+                        const croppedFile = new File([blob], 'camera-cropped.webp', { type: 'image/webp' });
+                        formData.append('cropped_image', canvas.toDataURL('image/webp', 0.6));
 
-                formData.append(
-                    'cropped_image',
-                    canvas.toDataURL(
-                        'image/webp',
-                        0.6
-                    )
-                );
+                        // Kirim form
+                        sendFormData(formData);
+                    }, 'image/webp', 0.8);
+                }
+                // If in upload mode, we can send the original file from input and the cropped image from canvas
+                else {
+                    formData.append('original_image', imageInput.files[0]);
+                    formData.append('image', imageInput.files[0]);
+                    formData.append('cropped_image', canvas.toDataURL('image/webp', 0.6));
 
-                try {
-
-                    const response = await fetch(
-                        uploadForm.action,
-                        {
-                            method: 'POST',
-                            body: formData,
-                            headers: {
-                                'X-CSRF-TOKEN':
-                                    document.querySelector(
-                                        'meta[name="csrf-token"]'
-                                    ).content
-                            }
-                        }
-                    );
-
-                    const html = await response.text();
-
-                    document.open();
-                    document.write(html);
-                    document.close();
-
-                } catch(error) {
-
-                    console.error(error);
-
-                    alert(error);
-
-                    isSubmitting = false;
-
-                    submitButton.disabled = false;
-
-                    submitSpinner.classList.add('hidden');
-
-                    loadingHint.classList.add('hidden');
-
-                    submitText.textContent =
-                        'Analisis Gambar';
+                    sendFormData(formData);
                 }
 
             }, 'image/webp', 0.5);

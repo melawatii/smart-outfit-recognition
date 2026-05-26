@@ -454,52 +454,6 @@
 
                 @endif
 
-                @if (!empty($summary))
-                    <!--begin::Summary Card-->
-                    <div class="panel-card p-6">
-                        <!--begin::Card Header-->
-                        <div class="card-header">
-                            <!--begin::Title Group-->
-                            <div>
-                                <!--begin::Title-->
-                                <h2 class="section-title">Ringkasan Analisis</h2>
-                                <!--end::Title-->
-                                <!--begin::Divider-->
-                                <div class="theme-divider"></div>
-                                <!--end::Divider-->
-                            </div>
-                            <!--end::Title Group-->
-                            <!--begin::Icon Bubble-->
-                            <div class="section-icon-bubble">
-                                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                    <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <polyline points="14 2 14 8 20 8" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <line x1="16" y1="13" x2="8" y2="13" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <line x1="16" y1="17" x2="8" y2="17" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <polyline points="10 9 9 9 8 9" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </div>
-                            <!--end::Icon Bubble-->
-                        </div>
-                        <!--end::Card Header-->
-                        <!--begin::Summary Box-->
-                        <div class="summary-box">
-                            <!--begin::Summary Icon-->
-                            <svg class="summary-box-icon" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                            <!--end::Summary Icon-->
-                            <!--begin::Summary Text-->
-                            <p class="summary-box-text">
-                                {{ ucfirst($summary) }}
-                            </p>
-                            <!--end::Summary Text-->
-                        </div>
-                        <!--end::Summary Box-->
-                    </div>
-                    <!--end::Summary Card-->
-                @endif
-
             </div>
             <!--end::Right Column-->
         </div>
