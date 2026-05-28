@@ -279,7 +279,11 @@
                     <!--end::Card Header-->
                     <!--begin::Image Wrapper-->
                     <div class="image-frame">
-                        <img src="{{ asset('storage/' . $imagePath) }}" alt="Uploaded Outfit" class="w-full">
+                        {{-- Local --}}
+                        <img src="{{ asset($imagePath) }}" alt="Uploaded Outfit" class="w-full">
+
+                        {{-- Deployed --}}
+                        {{-- <img src="{{ asset('storage/' . $imagePath) }}" alt="Uploaded Outfit" class="w-full"> --}}
                     </div>
                     <!--end::Image Wrapper-->
                 </div>
@@ -311,7 +315,11 @@
                         <!--end::Card Header-->
                         <!--begin::Image Wrapper-->
                         <div class="image-frame">
-                            <img src="http://127.0.0.1:9000/{{ $cropPreview }}" alt="Cropped Outfit" class="w-full">
+                            {{-- Local --}}
+                            {{-- <img src="http://127.0.0.1:9000/{{ $cropPreview }}" alt="Cropped Outfit" class="w-full"> --}}
+
+                            {{-- Deployed --}}
+                            <img src="https://melawatii-outfit-ai-chip.hf.space/{{ $cropPreview }}" alt="Cropped Outfit" class="w-full">
                         </div>
                         <!--end::Image Wrapper-->
                     </div>

@@ -29,21 +29,27 @@ class OutfitController extends Controller
         // Validate uploaded image
         $request->validate([
             'image' => 'required|image|max:10240',
-
             'original_image' => 'required|image|max:10240',
         ]);
 
         try {
             // Store image temporarily
-            $path = $request->file('original_image')->store(
-                                'uploads',
-                                'public'
-                            );
-            $fullPath = storage_path('app/public/' . $path);
 
-            $croppedImage =
-                $request->cropped_image;
+            // Local
+            // $path = $request->file('original_image')->store(
+            //                     'uploads',
+            //                     'public'
+            //                 );
+            // $fullPath = storage_path('app/public/' . $path);
 
+            // Deployed
+            $image = $request->file('original_image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $destinationPath = $_SERVER['DOCUMENT_ROOT'] . '/uploads';
+            $image->move($destinationPath, $imageName);
+            $path = 'uploads/' . $imageName;
+
+            $croppedImage = $request->cropped_image;
             $croppedImage =
                 str_replace(
                     'data:image/webp;base64,',
@@ -58,11 +64,12 @@ class OutfitController extends Controller
                     $croppedImage
                 );
 
-            $croppedBinary =
-                base64_decode($croppedImage);
+            $croppedBinary = base64_decode($croppedImage);
 
             // Send image to Python API
-            $pythonApi = 'http://127.0.0.1:9000/predict';
+            // $pythonApi = 'http://127.0.0.1:9000/predict'; // Local API
+            $pythonApi = 'https://melawatii-outfit-ai-chip.hf.space/predict'; // Deployed API
+
             $response = Http::asMultipart()
                             ->timeout(30)
                             ->post($pythonApi, [
