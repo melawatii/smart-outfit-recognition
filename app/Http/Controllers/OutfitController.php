@@ -140,9 +140,25 @@ class OutfitController extends Controller
             ]);
 
         } catch (\Throwable $e) {
-            return back()->withErrors([
-                'image' => $e->getMessage()
+            Log::error('Outfit Prediction Error', [
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
             ]);
+
+            $message = 'An unexpected error occurred. Please try again.';
+
+            if (str_contains($e->getMessage(), 'timed out')) {
+                $message = 'AI server response timeout. Please try again.';
+            }
+
+            if (str_contains($e->getMessage(), 'cURL error')) {
+                $message = 'Failed to connect to AI server.';
+            }
+
+            return back()->withErrors([
+                'image' => $message
+            ]);
+
         }
     }
 }
