@@ -62,21 +62,15 @@ class OutfitController extends Controller
             $path = 'uploads/' . $imageName;
 
             $croppedImage = $request->cropped_image;
-            $croppedImage =
-                str_replace(
-                    'data:image/webp;base64,',
-                    '',
-                    $croppedImage
-                );
-
-            $croppedImage =
-                str_replace(
-                    ' ',
-                    '+',
-                    $croppedImage
-                );
-
+            $croppedImage = str_replace('data:image/jpeg;base64,', '', $croppedImage);
+            $croppedImage = str_replace(' ', '+', $croppedImage);
             $croppedBinary = base64_decode($croppedImage);
+
+            file_put_contents(
+                $_SERVER['DOCUMENT_ROOT'].'/debug.log',
+                'cropped size: ' . strlen($croppedBinary) . PHP_EOL,
+                FILE_APPEND
+            );
 
             // Send image to Python API
             // $pythonApi = 'http://127.0.0.1:9000/predict'; // Local API
@@ -88,7 +82,7 @@ class OutfitController extends Controller
                                 [
                                     'name' => 'file',
                                     'contents' => $croppedBinary,
-                                    'filename' => 'cropped.webp'
+                                    'filename' => 'cropped.jpg'
                                 ]
                             ]);
 
@@ -145,7 +139,7 @@ class OutfitController extends Controller
                 'trace' => $e->getTraceAsString()
             ]);
 
-            $message = 'An unexpected error occurred. Please try again.';
+            $message = $e->getMessage();
 
             if (str_contains($e->getMessage(), 'timed out')) {
                 $message = 'AI server response timeout. Please try again.';

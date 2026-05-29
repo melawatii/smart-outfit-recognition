@@ -1133,7 +1133,7 @@
                 const croppedInput = document.getElementById('cropped_image');
                 croppedInput.value =
                     cameraCanvas.toDataURL(
-                        'image/webp',
+                        'image/jpeg',
                         0.6
                     );
 
@@ -1424,28 +1424,28 @@
                 // If in camera mode, we need to send both the original image (from camera) and the cropped image (from canvas)
                 if (isCameraMode) {
                     cameraCanvas.toBlob(function(originalBlob) {
-                        const originalFile = new File([originalBlob], 'camera-original.webp', { type: 'image/webp' });
+                        const originalFile = new File([originalBlob], 'camera-original.jpg', { type: 'image/jpeg' });
                         formData.append('image', originalFile);
                         formData.append('original_image', originalFile);
 
                         // Cropped image dari canvas crop
-                        const croppedFile = new File([blob], 'camera-cropped.webp', { type: 'image/webp' });
-                        formData.append('cropped_image', canvas.toDataURL('image/webp', 0.6));
+                        const croppedFile = new File([blob], 'camera-cropped.jpg', { type: 'image/jpeg' });
+                        formData.append('cropped_image', canvas.toDataURL('image/jpeg', 0.6));
 
                         // Kirim form
                         sendFormData(formData);
-                    }, 'image/webp', 0.8);
+                    }, 'image/jpeg', 0.8);
                 }
                 // If in upload mode, we can send the original file from input and the cropped image from canvas
                 else {
                     formData.append('original_image', imageInput.files[0]);
                     formData.append('image', imageInput.files[0]);
-                    formData.append('cropped_image', canvas.toDataURL('image/webp', 0.6));
+                    formData.append('cropped_image', canvas.toDataURL('image/jpeg', 0.6));
 
                     sendFormData(formData);
                 }
 
-            }, 'image/webp', 0.5);
+            }, 'image/jpeg', 0.5);
         });
     </script>
 </body>
