@@ -294,6 +294,7 @@
             cursor: move;
             box-shadow: 0 0 0 9999px rgba(15, 30, 70, 0.3);
             border-radius: 10px;
+            touch-action: none;
         }
 
         .crop-handle {
@@ -1206,6 +1207,30 @@
             e.preventDefault();
         });
 
+        // Touch events for mobile
+        cropBox.addEventListener('touchstart', function (e) {
+            if (isSubmitting) return;
+            if (e.target === cropHandle) return;
+
+            isDragging = true;
+            startX = e.touches[0].clientX;
+            startY = e.touches[0].clientY;
+
+            e.preventDefault();
+        }, { passive: false });
+
+        // Touch events for resize handle
+        cropHandle.addEventListener('touchstart', function (e) {
+            if (isSubmitting) return;
+
+            isResizing = true;
+            startX = e.touches[0].clientX;
+            startY = e.touches[0].clientY;
+
+            e.stopPropagation();
+            e.preventDefault();
+        }, { passive: false });
+
         // Mouse move event for dragging and resizing
         document.addEventListener('mousemove', function (e) {
             const maxWidth = previewImage.clientWidth;
@@ -1238,8 +1263,80 @@
             }
         });
 
+        // Touch move event for dragging and resizing on mobile
+        document.addEventListener('touchmove', function (e) {
+            if (!isDragging && !isResizing) {
+                return;
+            }
+
+            const maxWidth = previewImage.clientWidth;
+            const maxHeight = previewImage.clientHeight;
+            const touch = e.touches[0];
+
+            if (isDragging) {
+                const dx = touch.clientX - startX;
+                const dy = touch.clientY - startY;
+
+                boxX = Math.max(
+                    0,
+                    Math.min(
+                        boxX + dx,
+                        maxWidth - boxWidth
+                    )
+                );
+
+                boxY = Math.max(
+                    0,
+                    Math.min(
+                        boxY + dy,
+                        maxHeight - boxHeight
+                    )
+                );
+
+                startX = touch.clientX;
+                startY = touch.clientY;
+
+                renderCropBox();
+            }
+
+            if (isResizing) {
+                const dx = touch.clientX - startX;
+                const dy = touch.clientY - startY;
+
+                boxWidth = Math.max(
+                    60,
+                    Math.min(
+                        boxWidth + dx,
+                        maxWidth - boxX
+                    )
+                );
+
+                boxHeight = Math.max(
+                    60,
+                    Math.min(
+                        boxHeight + dy,
+                        maxHeight - boxY
+                    )
+                );
+
+                startX = touch.clientX;
+                startY = touch.clientY;
+
+                renderCropBox();
+            }
+
+            e.preventDefault();
+
+        }, { passive: false });
+
         // Mouse up event to stop dragging/resizing
         document.addEventListener('mouseup', function () {
+            isDragging = false;
+            isResizing = false;
+        });
+
+        // Touch end event to stop dragging/resizing on mobile
+        document.addEventListener('touchend', function () {
             isDragging = false;
             isResizing = false;
         });
