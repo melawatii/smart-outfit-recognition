@@ -968,13 +968,10 @@
         }
 
         // Functions to switch between modes (Upload)
-        // Tombol Unggah berfungsi sebagai toggle: tampilkan/sembunyikan sub buttons
         function switchToUploadMode() {
             if (isSubBtnRowVisible()) {
-                // Sembunyikan sub buttons jika sudah terlihat
                 hideSubBtnRow();
             } else {
-                // Tampilkan sub buttons
                 showSubBtnRow();
                 uploadMode.classList.add('hidden');
                 cameraMode.classList.add('hidden');
@@ -985,7 +982,6 @@
 
         // Functions to switch between modes (Camera)
         function switchToCameraMode() {
-            // Sembunyikan sub buttons setelah pilihan dibuat
             hideSubBtnRow();
             uploadMode.classList.add('hidden');
             cameraMode.classList.remove('hidden');
@@ -994,7 +990,6 @@
 
         // Functions to switch between modes (Device - same as upload for now)
         function switchToDeviceMode() {
-            // Sembunyikan sub buttons setelah pilihan dibuat
             hideSubBtnRow();
             uploadMode.classList.remove('hidden');
             cameraMode.classList.add('hidden');
@@ -1364,7 +1359,7 @@
                 document.close();
 
             } catch(error) {
-                console.error(error);
+                // console.error(error);
                 alert(error);
 
                 isSubmitting = false;
@@ -1377,7 +1372,6 @@
 
         // Form submission handler
         uploadForm.addEventListener('submit', async function (e) {
-
             e.preventDefault();
 
             if (isSubmitting) {
@@ -1393,14 +1387,9 @@
             }
 
             isSubmitting = true;
-
             submitButton.disabled = true;
-
             submitSpinner.classList.remove('hidden');
-
-            submitText.textContent =
-                'Sedang menganalisis...';
-
+            submitText.textContent = 'Sedang menganalisis...';
             loadingHint.classList.remove('hidden');
 
             const canvas = document.createElement('canvas');
@@ -1417,16 +1406,12 @@
             const ctx = canvas.getContext('2d');
             ctx.drawImage(
                 previewImage,
-
                 cropX * scaleX,
                 cropY * scaleY,
-
                 cropWidth * scaleX,
                 cropHeight * scaleY,
-
                 0,
                 0,
-
                 canvas.width,
                 canvas.height
             );

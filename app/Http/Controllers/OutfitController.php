@@ -27,10 +27,22 @@ class OutfitController extends Controller
     public function store(Request $request)
     {
         // Validate uploaded image
-        $request->validate([
-            'image' => 'required|image|max:10240',
-            'original_image' => 'required|image|max:10240',
-        ]);
+        $request->validate(
+            [
+                'image'                     => 'required|image|mimes:jpg,jpeg,png,webp,heic,heif|max:10240', // 10MB
+                'original_image'            => 'required|image|mimes:jpg,jpeg,png,webp,heic,heif|max:10240', // 10MB
+            ],
+            [
+                'image.required'            => 'Please select an image first.',
+                'image.image'               => 'The uploaded file must be an image.',
+                'image.mimes'               => 'Only JPG, JPEG, PNG, HEIC, HEIF and WEBP formats are supported.',
+                'image.max'                 => 'Image size must not exceed 10 MB.',
+                'original_image.required'   => 'Original image is required.',
+                'original_image.image'      => 'The uploaded file must be an image.',
+                'original_image.mimes'      => 'Only JPG, JPEG, PNG, HEIC, HEIF and WEBP formats are supported.',
+                'original_image.max'        => 'Image size must not exceed 10 MB.',
+            ]
+        );
 
         try {
             // Store image temporarily
@@ -71,7 +83,7 @@ class OutfitController extends Controller
             $pythonApi = 'https://melawatii-outfit-ai-chip.hf.space/predict'; // Deployed API
 
             $response = Http::asMultipart()
-                            ->timeout(30)
+                            ->timeout(60)
                             ->post($pythonApi, [
                                 [
                                     'name' => 'file',
@@ -79,6 +91,23 @@ class OutfitController extends Controller
                                     'filename' => 'cropped.webp'
                                 ]
                             ]);
+
+                            if ($response->failed()) {
+                                $message = 'Failed to connect to AI server. Please try again later.';
+
+                                if ($response->status() === 413) {
+                                    $message = 'Image size is too large.';
+                                }
+
+                                if ($response->status() === 415) {
+                                    $message = 'Unsupported image format.';
+                                }
+
+                                return back()->withErrors([
+                                    'image' => $message
+                                ]);
+                            }
+
 
             // Handle API failure
             if ($response->failed()) {
